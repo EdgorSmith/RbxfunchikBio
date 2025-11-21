@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Link</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Базовые настройки --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; 
+            background-color: #050505;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* --- Фон (Canvas) --- */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+        }
+
+        /* --- Контейнер контента --- */
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10; 
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        /* --- Заголовок --- */
+        .profile-header {
+            margin-bottom: 20px;
+            color: white;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .profile-header h1 {
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* --- Стили кнопок --- */
+        .link-btn {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            border-radius: 15px;
+            
+            /* Эффект стекла */
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-btn span {
+            flex-grow: 1;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Настройка стандартных иконок (FontAwesome) */
+        .link-btn i {
+            font-size: 24px;
+            width: 35px; 
+            text-align: center;
+            flex-shrink: 0; 
+        }
+
+        /* === ВОССТАНОВЛЕННЫЕ РАЗМЕРЫ LZT КАРТИНКИ (СТАНДАРТ) === */
+        .link-btn img {
+            width: 55px;         
+            height: auto;        
+            max-height: 40px;    
+            
+            object-fit: contain;
+            display: block;
+            flex-shrink: 0;
+            
+            /* Компенсация центра для стандартного размера */
+            margin-left: -10px; 
+            margin-right: -10px;
+        }
+
+        /* --- Цвета и ховер эффекты --- */
+        
+        /* Telegram */
+        .btn-tg:hover {
+            background: rgba(0, 136, 204, 0.2);
+            border-color: #0088cc;
+            box-shadow: 0 0 20px rgba(0, 136, 204, 0.4);
+            transform: translateY(-3px);
+        }
+        .btn-tg i { color: #0088cc; }
+
+        /* LZT (Lolzteam) */
+        .btn-lzt:hover {
+            background: rgba(34, 142, 93, 0.2);
+            border-color: #228e5d;
+            box-shadow: 0 0 20px rgba(34, 142, 93, 0.4);
+            transform: translateY(-3px);
+        }
+        /* Эффект увеличения картинки при наведении */
+        .btn-lzt img { transition: 0.3s; }
+        .btn-lzt:hover img { transform: scale(1.1); }
+
+        /* Проекты */
+        .btn-projects:hover {
+            background: rgba(155, 89, 182, 0.2);
+            border-color: #9b59b6;
+            box-shadow: 0 0 20px rgba(155, 89, 182, 0.4);
+            transform: translateY(-3px);
+        }
+        .btn-projects i { color: #9b59b6; }
+
+        /* Донат (Золотой) */
+        .btn-donate:hover {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            transform: translateY(-3px);
+        }
+        .btn-donate i { color: #ffd700; }
+
+        /* --- Анимация покачивания --- */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+
+    <div class="container">
+        
+        <div class="profile-header">
+            <h1>Welcome</h1>
+        </div>
+
+        <a href="https://t.me/ТВОЙ_ЮЗЕРНЕЙМ" class="link-btn btn-tg" target="_blank">
+            <i class="fab fa-telegram-plane"></i>
+            <span>Мой Telegram</span>
+        </a>
+
+        <a href="https://lolz.live/members/ТВОЙ_ID" class="link-btn btn-lzt" target="_blank">
+            <img src="https://i.ibb.co/23pRtSv9/1000000237-removebg-preview-1.png" alt="LZT">
+            <span>Мой LZT</span>
+        </a>
+
+        <a href="Projects.html" class="link-btn btn-projects">
+            <i class="fas fa-rocket"></i>
+            <span>Мои проекты</span>
+        </a>
+
+        <a href="donate.html" class="link-btn btn-donate">
+            <i class="fas fa-hand-holding-dollar"></i>
+            <span>Пожертвовать</span>
+        </a>
+
+    </div>
+
+    <script>
+        // --- СКРИПТ КОСМОСА ---
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let stars = [];
+        const numStars = 200;
+        let width, height;
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        class Star {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.z = Math.random() * width;
+                this.size = 0.5;
+            }
+            update() {
+                this.z -= 2;
+                if (this.z <= 0) {
+                    this.reset();
+                    this.z = width;
+                }
+            }
+            draw() {
+                let x = (this.x - width / 2) * (width / this.z);
+                let y = (this.y - height / 2) * (width / this.z);
+                x = x + width / 2;
+                y = y + height / 2;
+                let s = this.size * (width / this.z);
+
+                ctx.beginPath();
+                ctx.fillStyle = "white";
+                ctx.arc(x, y, s, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.fillStyle = "rgba(5, 5, 5, 0.3)"; 
+            ctx.fillRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            initStars();
+        });
+        resize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

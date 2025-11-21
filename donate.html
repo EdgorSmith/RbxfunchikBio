@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Link - Спасибо</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Базовые настройки --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; 
+            background-color: #050505;
+            font-family: 'Montserrat', sans-serif; 
+        }
+
+        /* --- Фон (Canvas) --- */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+        }
+
+        /* --- Контейнер контента --- */
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10; 
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        /* --- Текст сообщения --- */
+        .profile-header {
+            margin-bottom: 20px;
+            color: white;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .profile-header h1 {
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: none;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            font-size: 2em;
+        }
+
+        /* --- Стиль для сердечка --- */
+        .heart-icon {
+            font-size: 3em; 
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: float 3s ease-in-out infinite; 
+        }
+
+        /* --- Анимация покачивания --- */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+
+    <div class="container">
+        
+        <div class="profile-header">
+            <h1>Спасибо, но мне не нужно! Оставь себе)</h1>
+        </div>
+
+        <i class="fas fa-heart heart-icon"></i>
+
+    </div>
+
+    <script>
+        // --- СКРИПТ КОСМОСА ---
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let stars = [];
+        const numStars = 200;
+        let width, height;
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        class Star {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.z = Math.random() * width;
+                this.size = 0.5;
+            }
+            update() {
+                this.z -= 2;
+                if (this.z <= 0) {
+                    this.reset();
+                    this.z = width;
+                }
+            }
+            draw() {
+                let x = (this.x - width / 2) * (width / this.z);
+                let y = (this.y - height / 2) * (width / this.z);
+                x = x + width / 2;
+                y = y + height / 2;
+                let s = this.size * (width / this.z);
+
+                ctx.beginPath();
+                ctx.fillStyle = "white";
+                ctx.arc(x, y, s, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.fillStyle = "rgba(5, 5, 5, 0.3)"; 
+            ctx.fillRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            initStars();
+        });
+        resize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>
